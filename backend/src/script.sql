@@ -268,7 +268,7 @@ VALUES
         "Miguel",
         "Canalejas",
         "migueladmin@gmail.com",
-        "kjhasdjhhajskd",
+        "adadasd",
         "P7",
         "67",
         1
@@ -315,10 +315,6 @@ VALUES
     (2, 1, 11, 5, 5),
     (2, 1, 11, 5, 6);
 
-INSERT INTO
-    falta (alumnoID, claseID, fecha)
-VALUES
-    (7, 1, CURRENT_TIMESTAMP);
 
 --CONSULTAS
 select
@@ -483,19 +479,3 @@ FROM clase
 WHERE
     alumno.alumnoID = 23
 ORDER BY falta.fecha;
-
-
-SELECT 
-    alumno.nombreAlumno as nombreAlumno,
-    alumno.apellidosAlumno as apellidosAlumno,
-    alumno.correoAlumno as correoAlumno,
-    alumno.dniAlumno as dniAlumno,
-    curso.nombreCurso as nombreCurso,
-    alumno_curso.temporada as temporada
-    from alumno
-    join curso
-    join alumno_curso
-    on alumno.alumnoID = alumno_curso.alumnoID
-    and curso.cursoID = alumno_curso.cursoID
-where alumno.alumnoID = 23;
-
