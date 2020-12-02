@@ -20,4 +20,5 @@ router.use('/clase', authAlumno, claseRouter)
 //Rutas para profesores logueados
 router.use('/profesor', authProfesor, profesorRouter)
 
+
 module.exports = router;

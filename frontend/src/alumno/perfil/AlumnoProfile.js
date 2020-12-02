@@ -1,9 +1,11 @@
-import { Typography } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 import React, { useContext, useEffect, useState } from 'react'
-import UserContext from '../context/UserContext'
-import { getAlumnoProfile } from '../services/AlumnoService'
+import { useHistory } from 'react-router-dom'
+import UserContext from '../../context/UserContext'
+import { getAlumnoProfile } from '../../services/AlumnoService'
 
 function AlumnoProfile() {
+    const history = useHistory()
     const { user } = useContext(UserContext)
     const [alumnoData, setAlumnoData] = useState({})
     const [loading, setLoading] = useState(false)
@@ -35,6 +37,7 @@ function AlumnoProfile() {
                         </ul>
                     </div>
             }
+            <Button color="primary" variant="contained" onClick={() => history.push('/alumno/perfil/editar')}>Modificar datos</Button>
         </div>
     )
 }

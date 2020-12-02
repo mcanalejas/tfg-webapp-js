@@ -32,14 +32,14 @@ export default function SideNav(props) {
     useEffect(() => {
         if (user.isAlumno) {
             setMenuItems([
-                { title: 'Perfil', url: '/alumno/perfil', icon: <AccountCircleIcon /> },
+                { title: 'Perfil alumno', url: '/alumno', icon: <AccountCircleIcon /> },
                 { title: 'Horario', url: '/alumno/horario', icon: <TodayIcon /> },
                 { title: 'Faltas', url: '/alumno/faltas', icon: <TimerIcon /> },
                 { title: 'Cerrar sesión', icon: <MeetingRoomIcon />, logout: true }
             ])
         } else if (user.isProfesor) {
             setMenuItems([
-                { title: 'Perfil', url: '/profesor/perfil', icon: <AccountCircleIcon /> },
+                { title: 'Perfil profesor', url: '/profesor/perfil', icon: <AccountCircleIcon /> },
                 { title: 'Horario', url: '/profesor/horario', icon: <TodayIcon /> },
                 { title: 'Cerrar sesión', icon: <MeetingRoomIcon />, logout: true }
             ])

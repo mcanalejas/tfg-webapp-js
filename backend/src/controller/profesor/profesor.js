@@ -95,7 +95,8 @@ function getAlumnosFromClase(req, res) {
         'and clase.asignaturaID = asignatura.asignaturaID ' +
         'and curso.cursoID = alumno_curso.cursoID ' +
         'and alumno.alumnoID = alumno_curso.alumnoID ' +
-        'where clase.claseID = ?'
+        'where clase.claseID = ? ' +
+        'order by alumno.apellidosAlumno'
     mysqlConnection.query(query, [claseID], (error, result) => {
         if (error) return res.json(error)
         return res.json(result)

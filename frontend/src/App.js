@@ -9,7 +9,8 @@ import RouteAlumno from './routes/RouteAlumno';
 import RouteProfesor from './routes/RouteProfesor';
 import RouteAdmin from './routes/RouteAdmin';
 import Login from './login/Login'
-import AlumnoProfile from './alumno/AlumnoProfile';
+import AlumnoProfile from './alumno/perfil/AlumnoProfile';
+import AlumnoUpdate from './alumno/perfil/AlumnoUpdate';
 import AlumnoHorario from './alumno/horario/AlumnoHorario';
 import AlumnoHorarioFalta from './alumno/horario/AlumnoHorarioFalta';
 import AlumnoFaltas from './alumno/faltas/AlumnoFaltas';
@@ -32,6 +33,7 @@ function App() {
             <Route path='/login' component={Login} exact />
             <RouteAlumno path='/alumno' component={AlumnoProfile} exact />
             <RouteAlumno path='/alumno/perfil' component={AlumnoProfile} exact />
+            <RouteAlumno path='/alumno/perfil/editar' component={AlumnoUpdate} exact />
             <RouteAlumno path='/alumno/horario' component={AlumnoHorario} exact />
             <RouteAlumno path='/alumno/horario/faltas-clase/:claseID' component={AlumnoHorarioFalta} exact />
             <RouteAlumno path='/alumno/faltas' component={AlumnoFaltas} exact />

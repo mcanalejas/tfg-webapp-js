@@ -16,6 +16,7 @@ function AlumnoHorarioFalta() {
     useEffect(() => {
         const getClase = async () => {
             const info = await GetClaseInfo(params.claseID, user.token)
+            console.log(info)
             setClase(info)
         }
         getClase()
@@ -29,6 +30,7 @@ function AlumnoHorarioFalta() {
                 falta.hora = hora[0]
                 return falta
             })
+            console.log(faltas)
             setFaltas(faltas)
         }
         getFaltas()
@@ -37,7 +39,7 @@ function AlumnoHorarioFalta() {
     return (
         <Grid>
             <Button onClick={() => history.goBack()} endIcon={<ArrowBackIcon />} />
-            <Typography component="h1" variant="h4">Faltas en la clase {clase.nombreAsignatura}</Typography>
+            <Typography component="h1" variant="h4">Clase {clase.nombreAsignatura}</Typography>
             <List>
                 {
                     faltas.length > 0

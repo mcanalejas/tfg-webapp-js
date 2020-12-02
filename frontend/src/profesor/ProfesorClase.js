@@ -14,7 +14,6 @@ function ProfesorClase() {
     const [clase, setClase] = useState({})
     const [alumnos, setAlumnos] = useState([])
     const [faltas, setFaltas] = useState([])
-    const [pasadoLista, setPasadoLista] = useState(false);
 
     useEffect(() => {
         const getAlumnosFromClase = async () => {
@@ -45,7 +44,6 @@ function ProfesorClase() {
             const res = await AddFaltasService(faltas, user.token)
             toast.success(res.message)
             setFaltas([])
-            setPasadoLista(true)
         }
     }
 
@@ -65,7 +63,7 @@ function ProfesorClase() {
                     </TableHead>
                     <TableBody>
                         {
-                            alumnos.map((alumno) =>
+                            alumnos.sort().map((alumno) =>
                                 <TableRow key={alumno.alumnoID}>
                                     <TableCell align="center">{alumno.alumnoID}</TableCell>
                                     <TableCell align="center">{alumno.nombreAlumno}</TableCell>

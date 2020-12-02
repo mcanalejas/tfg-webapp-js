@@ -22,18 +22,26 @@ function LoginProfesor() {
             if (res.error) {
                 toast.error(res.error)
             } else {
-                toast.success('Inicio de sesión correcto!')
-                loginAdmin(res.token)
-                history.push('/profesor/perfil')
+                if (res.token) {
+                    toast.success('Inicio de sesión correcto!')
+                    loginAdmin(res.token)
+                    history.push('/profesor/perfil')
+                } else {
+                    toast.error('Error con el servidor')
+                }
             }
         } else {
             const res = await LoginProfesorService(userProfesor)
             if (res.error) {
                 toast.error(res.error)
             } else {
-                toast.success('Inicio de sesión correcto!')
-                loginProfesor(res.token)
-                history.push('/profesor/perfil')
+                if (res.token) {
+                    toast.success('Inicio de sesión correcto!')
+                    loginProfesor(res.token)
+                    history.push('/profesor/perfil')
+                } else {
+                    toast.error('Error con el servidor')
+                }
             }
         }
     }
@@ -50,7 +58,7 @@ function LoginProfesor() {
 
     return (
         <Grid>
-            <Typography component="h1" variant="h4">LOGIN PROFESOR</Typography>
+            <Typography component="h1" variant="h4">{userProfesor.isAdmin ? 'LOGIN ADMIN' : 'LOGIN PROFESOR'}</Typography>
             <Avatar src={imgteacherlogin} alt="Imagen login profesor" style={{ height: 120, width: 120 }} />
             <form onSubmit={onSubmit}>
                 <Grid item>
