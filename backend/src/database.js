@@ -7,7 +7,7 @@ const mysqlConnection = mysql.createConnection({
     database: 'db_react'
 })
 
-// Check database
+// Comprobar database
 mysqlConnection.connect((err) => {
     if (err) {
         console.error('DB is down')

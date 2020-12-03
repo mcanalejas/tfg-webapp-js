@@ -113,6 +113,7 @@ function addFaltaOrFaltas(req, res) {
 }
 
 function reqBodyToArray(body) {
+    // Mediante este metodo convertimos todas las faltas que nos vienen en un array de strings.
     let arrayFaltasObject = body
     let arrayFaltas = []
     arrayFaltas = arrayFaltasObject.map((n) => {
