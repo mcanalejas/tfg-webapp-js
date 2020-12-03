@@ -2,15 +2,19 @@ const mysql = require('mysql')
 
 const mysqlConnection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
+    user: 'user_db_react',
     password: 'tiger',
-    database: 'db_fenlalista'
+    database: 'db_react'
 })
 
 // Check database
 mysqlConnection.connect((err) => {
-    if (err) console.error('DB is down')
-    console.log('DB is running')
+    if (err) {
+        console.error('DB is down')
+        return
+    }else {
+        console.log('DB is running')
+    }
 })
 
 
