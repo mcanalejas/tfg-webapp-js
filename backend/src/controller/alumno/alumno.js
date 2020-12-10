@@ -3,17 +3,17 @@ const bcrypt = require('bcrypt')
 
 function getAlumnoData(req, res) {
     const alumnoID = req.alumnoID
-    const query = 
-    'SELECT alumno.nombreAlumno as nombreAlumno,'+
-    'alumno.apellidosAlumno as apellidosAlumno,'+
-    'alumno.correoAlumno as correoAlumno,'+
-    'alumno.dniAlumno as dniAlumno,'+
-    'curso.nombreCurso as nombreCurso,'+
-    'alumno_curso.temporada as temporada '+
-    'from alumno join curso join alumno_curso '+
-    'on alumno.alumnoID = alumno_curso.alumnoID '+
-    'and curso.cursoID = alumno_curso.cursoID '+
-    'where alumno.alumnoID = ?'
+    const query =
+        'SELECT alumno.nombreAlumno as nombreAlumno,' +
+        'alumno.apellidosAlumno as apellidosAlumno,' +
+        'alumno.correoAlumno as correoAlumno,' +
+        'alumno.dniAlumno as dniAlumno,' +
+        'curso.nombreCurso as nombreCurso,' +
+        'alumno_curso.temporada as temporada ' +
+        'from alumno join curso join alumno_curso ' +
+        'on alumno.alumnoID = alumno_curso.alumnoID ' +
+        'and curso.cursoID = alumno_curso.cursoID ' +
+        'where alumno.alumnoID = ?'
     mysqlConnection.query(query, [alumnoID], (error, result) => {
         return res.json(result[0])
     })
@@ -77,7 +77,7 @@ function updateAlumnoData(req, res) {
                     // Sacar el campo repetido
                     let sqlMessage = error.sqlMessage.split("'")
                     let campoRepetido = sqlMessage[3].split('.')
-                    return res.status(500).json({ error: 'Campo en uso', campo_repetido: campoRepetido[1] })
+                    return res.status(500).json({ error: 'Campo en uso: ' + campoRepetido[1] })
                 }
                 return res.status(500).json({ error: 'Error al realizar la consulta', error_code: error.errno })
             }

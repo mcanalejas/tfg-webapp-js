@@ -15,7 +15,6 @@ function AlumnoProfile() {
             setLoading(true)
             const alumnoProfile = await getAlumnoProfile(user.token)
             setLoading(false)
-            console.log(alumnoProfile)
             setAlumnoData(alumnoProfile)
         }
         fetchData()

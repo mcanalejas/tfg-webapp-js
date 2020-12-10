@@ -58,3 +58,19 @@ export async function GetAllFaltasAlumnoService(token) {
         .then(result => result)
         .catch(error => error)
 }
+
+export async function UpdateAlumnoProfileService(newAlumno, token) {
+    return await fetch(`http://localhost:3001/api/alumno/editarPerfil`,
+        {
+            method: 'PATCH',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(newAlumno)
+        }
+    )
+        .then(response => response.json())
+        .then(result => result)
+        .catch(error => error)
+}
