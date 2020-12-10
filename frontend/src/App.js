@@ -22,6 +22,7 @@ import ProfesoresDashboard from './admin/profesores/ProfesoresDashboard';
 import AlumnosDashboard from './admin/alumnos/AlumnosDashboard';
 import Page403 from './errorpage/Page403';
 import Page404 from './errorpage/Page404';
+import HomePage from './home/HomePage';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
       <UserContextProvider>
         <SideNav>
           <Switch>
+            <Route path='/' component={HomePage} exact />
             <Route path='/login' component={Login} exact />
             <RouteAlumno path='/alumno' component={AlumnoProfile} exact />
             <RouteAlumno path='/alumno/perfil' component={AlumnoProfile} exact />
