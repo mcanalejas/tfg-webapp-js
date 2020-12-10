@@ -1,481 +1,235 @@
-DROP DATABASE db_fenlalista;
-
-CREATE DATABASE db_fenlalista;
-
-USE db_fenlalista;
-
-CREATE TABLE `alumno` (
-    `alumnoID` INT NOT NULL AUTO_INCREMENT,
-    `nombreAlumno` varchar(255) NOT NULL,
-    `apellidosAlumno` varchar(255) NOT NULL,
-    `correoAlumno` varchar(255) NOT NULL UNIQUE,
-    `passwordHashedAlumno` varchar(255) NOT NULL,
-    `dniAlumno` varchar(255) NOT NULL UNIQUE,
-    PRIMARY KEY (`alumnoID`)
-);
-
-CREATE TABLE `curso` (
-    `cursoID` INT NOT NULL AUTO_INCREMENT,
-    `nombreCurso` varchar(255) NOT NULL UNIQUE,
-    PRIMARY KEY (`cursoID`)
-);
-
-CREATE TABLE `alumno_curso` (
-    `alumno_cursoID` INT NOT NULL AUTO_INCREMENT UNIQUE,
-    `alumnoID` INT NOT NULL,
-    `cursoID` INT NOT NULL,
-    `temporada` varchar(255) NOT NULL,
-    PRIMARY KEY (`alumnoID`, `temporada`)
-);
-
-CREATE TABLE `profesor` (
-    `profesorID` INT NOT NULL AUTO_INCREMENT,
-    `nombreProfesor` varchar(255) NOT NULL,
-    `apellidosProfesor` varchar(255) NOT NULL,
-    `correoProfesor` varchar(255) NOT NULL UNIQUE,
-    `passwordHashedProfesor` varchar(255) NOT NULL,
-    `dniProfesor` varchar(255) NOT NULL UNIQUE,
-    `telefonoProfesor` varchar(255) NOT NULL UNIQUE,
-    `isAdmin` TINYINT default 0,
-    PRIMARY KEY (`profesorID`)
-);
-
-CREATE TABLE `asignatura` (
-    `asignaturaID` INT NOT NULL AUTO_INCREMENT,
-    `nombreAsignatura` varchar(255) NOT NULL UNIQUE,
-    `horas` INT(255) NOT NULL,
-    PRIMARY KEY (`asignaturaID`)
-);
-
-CREATE TABLE `clase` (
-    `claseID` INT NOT NULL AUTO_INCREMENT UNIQUE,
-    `cursoID` INT NOT NULL,
-    `profesorID` INT NOT NULL,
-    `asignaturaID` INT NOT NULL,
-    `diaSemana` INT NOT NULL,
-    `horaSemana` INT NOT NULL,
-    PRIMARY KEY (
-        `cursoID`,
-        `profesorID`,
-        `asignaturaID`,
-        `diaSemana`,
-        `horaSemana`
-    )
-);
-
-CREATE TABLE `falta` (
-    `faltaID` INT NOT NULL AUTO_INCREMENT UNIQUE,
-    `alumnoID` INT NOT NULL,
-    `claseID` INT NOT NULL,
-    `fecha` DATETIME NOT NULL,
-    PRIMARY KEY (`alumnoID`, `claseID`, `fecha`)
-);
-
-ALTER TABLE
-    `alumno_curso`
-ADD
-    CONSTRAINT `alumno_curso_fk0` FOREIGN KEY (`alumnoID`) REFERENCES `alumno`(`alumnoID`) ON DELETE CASCADE;
-
-ALTER TABLE
-    `alumno_curso`
-ADD
-    CONSTRAINT `alumno_curso_fk1` FOREIGN KEY (`cursoID`) REFERENCES `curso`(`cursoID`);
-
-ALTER TABLE
-    `clase`
-ADD
-    CONSTRAINT `clase_fk0` FOREIGN KEY (`cursoID`) REFERENCES `curso`(`cursoID`);
-
-ALTER TABLE
-    `clase`
-ADD
-    CONSTRAINT `clase_fk1` FOREIGN KEY (`profesorID`) REFERENCES `profesor`(`profesorID`);
-
-ALTER TABLE
-    `clase`
-ADD
-    CONSTRAINT `clase_fk2` FOREIGN KEY (`asignaturaID`) REFERENCES `asignatura`(`asignaturaID`);
-
-ALTER TABLE
-    `falta`
-ADD
-    CONSTRAINT `falta_fk0` FOREIGN KEY (`alumnoID`) REFERENCES `alumno`(`alumnoID`);
-
-ALTER TABLE
-    `falta`
-ADD
-    CONSTRAINT `falta_fk1` FOREIGN KEY (`claseID`) REFERENCES `clase`(`claseID`);
-
---end
-INSERT INTO
-    curso(nombreCurso)
-VALUES
-    ("1DAM"),
-    ("2DAM");
-
-INSERT INTO
-    alumno(
-        nombreAlumno,
-        apellidosAlumno,
-        correoAlumno,
-        passwordHashedAlumno,
-        dniAlumno
-    )
-VALUES
-    (
-        "test1",
-        "test1",
-        "test@gmail.com",
-        "password",
-        "A1"
-    ),
-    (
-        "test2",
-        "test2",
-        "test2@gmail.com",
-        "password",
-        "A2"
-    ),
-    (
-        "test3",
-        "test3",
-        "test3@gmail.com",
-        "password",
-        "A3"
-    ),
-    (
-        "test4",
-        "test4",
-        "test4@gmail.com",
-        "password",
-        "A4"
-    ),
-    (
-        "test5",
-        "test5",
-        "test5@gmail.com",
-        "password",
-        "A5"
-    ),
-    (
-        "test6",
-        "test6",
-        "test6@gmail.com",
-        "password",
-        "A6"
-    );
-
-INSERT INTO
-    alumno_curso(alumnoID, cursoID, temporada)
-VALUES
-    (1, 1, "19/20"),
-    (2, 1, "19/20"),
-    (3, 1, "19/20"),
-    (4, 2, "19/20"),
-    (5, 2, "19/20"),
-    (6, 2, "19/20");
-
-INSERT INTO
-    asignatura(nombreAsignatura, horas)
-VALUES
-    ("PYTHON", 300),
-    ("FOL", 300),
-    ("PROGRAMACION", 300),
-    ("ENTORNOS DE DESARROLLO", 300),
-    ("BASE DE DATOS", 300),
-    ("LENGUAJE DE MARCAS", 300),
-    ("SISTEMAS INFORMATICOS", 300),
-    ("PROGRAMACION DE SERVICIOS", 300),
-    ("EMPRESA", 300),
-    ("DESARROLLO DE INTERFACES", 300),
-    ("SISTEMAS DE GESTION EMPRESARIAL", 300),
-    ("ANDROID", 300),
-    ("ACCESO A DATOS", 300),
-    ("INGLES", 300);
-
-INSERT INTO
-    profesor(
-        nombreProfesor,
-        apellidosProfesor,
-        correoProfesor,
-        passwordHashedProfesor,
-        dniProfesor,
-        telefonoProfesor
-    )
-VALUES
-    (
-        "Profesor1",
-        "Profesor1",
-        "profesor1@gmail.com",
-        "password",
-        "P1",
-        "61"
-    ),
-    (
-        "Profesor2",
-        "Profesor2",
-        "profesor2@gmail.com",
-        "password",
-        "P2",
-        "62"
-    ),
-    (
-        "Profesor3",
-        "Profesor3",
-        "profesor3@gmail.com",
-        "password",
-        "P3",
-        "63"
-    ),
-    (
-        "Profesor4",
-        "Profesor4",
-        "profesor4@gmail.com",
-        "password",
-        "P4",
-        "64"
-    ),
-    (
-        "Profesor5",
-        "Profesor5",
-        "profesor5@gmail.com",
-        "password",
-        "P5",
-        "65"
-    ),
-    (
-        "Profesor6",
-        "Profesor6",
-        "profesor6@gmail.com",
-        "password",
-        "P6",
-        "66"
-    );
-
--- INSERT ADMIN DATABASE
-INSERT INTO
-    profesor(
-        nombreProfesor,
-        apellidosProfesor,
-        correoProfesor,
-        passwordHashedProfesor,
-        dniProfesor,
-        telefonoProfesor,
-        isAdmin
-    )
-VALUES
-    (
-        "Miguel",
-        "Canalejas",
-        "migueladmin@gmail.com",
-        "adadasd",
-        "P7",
-        "67",
-        1
-    );
-
--- HORARIO
-INSERT INTO
-    clase(
-        cursoID,
-        profesorID,
-        asignaturaID,
-        diaSemana,
-        horaSemana
-    )
-VALUES
-    (2, 1, 11, 1, 1),
-    (2, 1, 11, 1, 2),
-    (2, 1, 11, 1, 3),
-    (2, 1, 10, 1, 4),
-    (2, 2, 9, 1, 5),
-    (2, 4, 14, 1, 6),
-    (2, 6, 12, 2, 1),
-    (2, 6, 12, 2, 2),
-    (2, 3, 13, 2, 3),
-    (2, 3, 13, 2, 4),
-    (2, 3, 13, 2, 5),
-    (2, 2, 9, 2, 6),
-    (2, 1, 10, 3, 1),
-    (2, 1, 10, 3, 2),
-    (2, 1, 10, 3, 3),
-    (2, 3, 13, 3, 4),
-    (2, 3, 13, 3, 5),
-    (2, 3, 13, 3, 6),
-    (2, 1, 10, 4, 1),
-    (2, 1, 10, 4, 2),
-    (2, 4, 14, 4, 3),
-    (2, 5, 8, 4, 4),
-    (2, 5, 8, 4, 5),
-    (2, 2, 9, 4, 6),
-    (2, 5, 8, 5, 1),
-    (2, 5, 8, 5, 2),
-    (2, 6, 12, 5, 3),
-    (2, 6, 12, 5, 4),
-    (2, 1, 11, 5, 5),
-    (2, 1, 11, 5, 6);
-
-
---CONSULTAS
-select
-    clase.claseID curso.nombreCurso,
-    asignatura.nombreAsignatura,
-    profesor.nombreProfesor,
-    clase.horaSemana,
-    clase.diaSemana
-from
-    clase
-    join curso
-    join asignatura
-    join profesor on clase.cursoID = curso.cursoID
-    and clase.asignaturaID = asignatura.asignaturaID
-    and clase.profesorID = profesor.profesorID
-where
-    profesor.profesorID = 1;
+-- MariaDB dump 10.18  Distrib 10.5.8-MariaDB, for Linux (x86_64)
 --
-select
-    asignatura.nombreAsignatura,
-    profesor.nombreProfesor,
-    clase.horaSemana,
-    clase.diaSemana
-from
-    clase
-    join curso
-    join asignatura
-    join profesor
-    join alumno
-    join alumno_curso on clase.cursoID = curso.cursoID
-    and clase.asignaturaID = asignatura.asignaturaID
-    and clase.profesorID = profesor.profesorID
-    and clase.cursoID = alumno_curso.cursoID
-    and alumno.alumnoID = alumno_curso.alumnoID
-where
-    alumno.alumnoID = 7
+-- Host: 127.0.0.1    Database: db_fenlalista
+-- ------------------------------------------------------
+-- Server version	8.0.19
 
--- /profesor/clase/1 GET ALUMNOS CLASE
-SELECT
-    alumno.alumnoID,
-    alumno.nombreAlumno,
-    clase.claseID,
-    asignatura.nombreAsignatura,
-    profesor.nombreProfesor,
-    clase.diaSemana,
-    clase.horaSemana
-FROM
-    clase
-    JOIN profesor
-    JOIN curso
-    JOIN asignatura
-    JOIN alumno
-    JOIN alumno_curso ON clase.cursoID = curso.cursoID
-    and clase.profesorID = profesor.profesorID
-    and clase.asignaturaID = asignatura.asignaturaID
-    and curso.cursoID = alumno_curso.cursoID
-    and alumno.alumnoID = alumno_curso.alumnoID
-where
-    clase.claseID = 1
-order by
-    alumno.alumnoID;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- HORARIO ALUMNO
-select
-    asignatura.nombreAsignatura AS NombreAsignatura,
-    profesor.nombreProfesor AS NombreProfesor,
-    clase.horaSemana AS HoraSemana,
-    clase.diaSemana AS DiaSemana,
-    curso.nombreCurso AS NombreCurso
-from
-    clase
-    join curso
-    join asignatura
-    join profesor
-    join alumno
-    join alumno_curso 
-    on clase.asignaturaID = asignatura.asignaturaID
-    and clase.profesorID = profesor.profesorID
-    and clase.cursoID = alumno_curso.cursoID
-    and alumno.alumnoID = alumno_curso.alumnoID
-    and clase.cursoID = curso.cursoID
-WHERE
-    alumno.alumnoID = 23;
-    
+--
+-- Table structure for table `alumno`
+--
 
--- ASIGNATURAS PROFESOR
-select
-    clase.claseID as claseID,
-    curso.nombreCurso as nombreCurso,
-    asignatura.nombreAsignatura as nombreAsignatura,
-    clase.horaSemana as horaSemana,
-    clase.diaSemana as diaSemana
-from
-    clase
-    join curso
-    join asignatura
-    join profesor on clase.cursoID = curso.cursoID
-    and clase.asignaturaID = asignatura.asignaturaID
-    and clase.profesorID = profesor.profesorID
-where
-    profesor.profesorID = 3;
+DROP TABLE IF EXISTS `alumno`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alumno` (
+  `alumnoID` int NOT NULL AUTO_INCREMENT,
+  `nombreAlumno` varchar(255) NOT NULL,
+  `apellidosAlumno` varchar(255) NOT NULL,
+  `correoAlumno` varchar(255) NOT NULL,
+  `passwordHashedAlumno` varchar(255) NOT NULL,
+  `dniAlumno` varchar(255) NOT NULL,
+  PRIMARY KEY (`alumnoID`),
+  UNIQUE KEY `correoAlumno` (`correoAlumno`),
+  UNIQUE KEY `dniAlumno` (`dniAlumno`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- GET ASIGNATURAS alumno
-SELECT
-    DISTINCT alumno.nombreAlumno as nombreAlumno,
-    alumno.apellidosAlumno as apellidosAlumno,
-    alumno.correoAlumno as correoAlumno,
-    curso.nombreCurso as nombreCurso,
-    asignatura.nombreAsignatura as nombreAsignatura
-FROM
-    alumno
-    JOIN curso
-    JOIN alumno_curso
-    JOIN clase
-    JOIN asignatura ON alumno.alumnoID = alumno_curso.alumnoID
-    AND curso.cursoID = alumno_curso.cursoID
-    AND curso.cursoID = clase.cursoID
-    AND asignatura.asignaturaID = clase.asignaturaID
-WHERE
-    alumno.alumnoID = 7 
-    
--- GET CLASE INFO ALUMNO BY claseID /clase/:claseID
-SELECT
-    clase.claseID as claseID,
-    asignatura.nombreAsignatura as nombreAsignatura,
-    profesor.nombreProfesor as nombreProfesor,
-    clase.diaSemana as diaSemana,
-    clase.horaSemana as horaSemana
-FROM
-    clase
-    JOIN profesor
-    JOIN curso
-    JOIN asignatura ON clase.cursoID = curso.cursoID
-    and clase.profesorID = profesor.profesorID
-    and clase.asignaturaID = asignatura.asignaturaI
-where
-    clase.claseID = ?;
+--
+-- Dumping data for table `alumno`
+--
 
--- GET FALTAS ALUMNO
+LOCK TABLES `alumno` WRITE;
+/*!40000 ALTER TABLE `alumno` DISABLE KEYS */;
+INSERT INTO `alumno` VALUES (1,'Pepito','Lopez','test1@test.com','password','A1'),(2,'Jaime','Rodriguez','test2@gmail.com','password','A2'),(3,'Jose','Lopez','test3@gmail.com','password','A3'),(4,'Roberto','Martinez','test4@gmail.com','password','A4'),(5,'Manuel','Lopez','test5@gmail.com','password','A5'),(6,'Javier','Ramirez','test6@gmail.com','password','A6'),(23,'Miguel','Canalejas de la Cruz','miguel@test.com','$2b$10$XpPHOn73B4MrMNyv1m6kves7c9keuk42K8BF477adiMPVz69.oADe','12345678K'),(35,'Pepe','Martinez','pepe@gmail.com','$2b$10$CLAZxjK1XYmNgW3IJ1EVbOAlY.lgq8ZRSQQBGgZWTIgRNd3pkD3SK','test');
+/*!40000 ALTER TABLE `alumno` ENABLE KEYS */;
+UNLOCK TABLES;
 
-SELECT
-    falta.fecha as fechaFalta,
-    falta.faltaID as faltaID,
-    alumno.alumnoID as alumnoID,
-    asignatura.nombreAsignatura AS nombreAsignatura,
-    profesor.nombreProfesor AS nombreProfesor,
-    clase.horaSemana AS horaSemana,
-    clase.diaSemana AS diaSemana
-FROM clase
-    JOIN curso
-    JOIN asignatura
-    JOIN profesor
-    JOIN alumno
-    JOIN alumno_curso 
-    JOIN falta ON clase.asignaturaID = asignatura.asignaturaID
-    AND clase.profesorID = profesor.profesorID
-    AND clase.cursoID = alumno_curso.cursoID
-    AND alumno.alumnoID = alumno_curso.alumnoID
-    AND clase.cursoID = curso.cursoID
-    AND falta.claseID = clase.claseID
-    AND falta.alumnoID = alumno.alumnoID
-WHERE
-    alumno.alumnoID = 23
-ORDER BY falta.fecha;
+--
+-- Table structure for table `alumno_curso`
+--
+
+DROP TABLE IF EXISTS `alumno_curso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alumno_curso` (
+  `alumno_cursoID` int NOT NULL AUTO_INCREMENT,
+  `alumnoID` int NOT NULL,
+  `cursoID` int NOT NULL,
+  `temporada` varchar(255) NOT NULL,
+  PRIMARY KEY (`alumnoID`,`temporada`),
+  UNIQUE KEY `alumno_cursoID` (`alumno_cursoID`),
+  KEY `alumno_curso_fk1` (`cursoID`),
+  CONSTRAINT `alumno_curso_fk0` FOREIGN KEY (`alumnoID`) REFERENCES `alumno` (`alumnoID`) ON DELETE CASCADE,
+  CONSTRAINT `alumno_curso_fk1` FOREIGN KEY (`cursoID`) REFERENCES `curso` (`cursoID`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `alumno_curso`
+--
+
+LOCK TABLES `alumno_curso` WRITE;
+/*!40000 ALTER TABLE `alumno_curso` DISABLE KEYS */;
+INSERT INTO `alumno_curso` VALUES (1,1,1,'19/20'),(2,2,1,'19/20'),(3,3,1,'19/20'),(4,4,2,'19/20'),(5,5,2,'19/20'),(6,6,2,'19/20'),(11,23,2,'19/20'),(13,35,2,'19/20');
+/*!40000 ALTER TABLE `alumno_curso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `asignatura`
+--
+
+DROP TABLE IF EXISTS `asignatura`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `asignatura` (
+  `asignaturaID` int NOT NULL AUTO_INCREMENT,
+  `nombreAsignatura` varchar(255) NOT NULL,
+  `horas` int NOT NULL,
+  PRIMARY KEY (`asignaturaID`),
+  UNIQUE KEY `nombreAsignatura` (`nombreAsignatura`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `asignatura`
+--
+
+LOCK TABLES `asignatura` WRITE;
+/*!40000 ALTER TABLE `asignatura` DISABLE KEYS */;
+INSERT INTO `asignatura` VALUES (1,'PYTHON',300),(2,'FOL',300),(3,'PROGRAMACION',300),(4,'ENTORNOS DE DESARROLLO',300),(5,'BASE DE DATOS',300),(6,'LENGUAJE DE MARCAS',300),(7,'SISTEMAS INFORMATICOS',300),(8,'PROGRAMACION DE SERVICIOS',300),(9,'EMPRESA',300),(10,'DESARROLLO DE INTERFACES',300),(11,'SISTEMAS DE GESTION EMPRESARIAL',300),(12,'ANDROID',300),(13,'ACCESO A DATOS',300),(14,'INGLES',300);
+/*!40000 ALTER TABLE `asignatura` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clase`
+--
+
+DROP TABLE IF EXISTS `clase`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clase` (
+  `claseID` int NOT NULL AUTO_INCREMENT,
+  `cursoID` int NOT NULL,
+  `profesorID` int NOT NULL,
+  `asignaturaID` int NOT NULL,
+  `diaSemana` int NOT NULL,
+  `horaSemana` int NOT NULL,
+  PRIMARY KEY (`cursoID`,`profesorID`,`asignaturaID`,`diaSemana`,`horaSemana`),
+  UNIQUE KEY `claseID` (`claseID`),
+  KEY `clase_fk1` (`profesorID`),
+  KEY `clase_fk2` (`asignaturaID`),
+  CONSTRAINT `clase_fk0` FOREIGN KEY (`cursoID`) REFERENCES `curso` (`cursoID`),
+  CONSTRAINT `clase_fk1` FOREIGN KEY (`profesorID`) REFERENCES `profesor` (`profesorID`),
+  CONSTRAINT `clase_fk2` FOREIGN KEY (`asignaturaID`) REFERENCES `asignatura` (`asignaturaID`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clase`
+--
+
+LOCK TABLES `clase` WRITE;
+/*!40000 ALTER TABLE `clase` DISABLE KEYS */;
+INSERT INTO `clase` VALUES (1,2,15,11,1,1),(2,2,15,11,1,2),(3,2,15,11,1,3),(4,2,15,10,1,4),(5,2,2,9,1,5),(6,2,4,14,1,6),(7,2,6,12,2,1),(8,2,6,12,2,2),(9,2,3,13,2,3),(10,2,3,13,2,4),(11,2,3,13,2,5),(12,2,2,9,2,6),(13,2,15,10,3,1),(14,2,15,10,3,2),(15,2,15,10,3,3),(16,2,3,13,3,4),(17,2,3,13,3,5),(18,2,3,13,3,6),(19,2,15,10,4,1),(20,2,15,10,4,2),(21,2,4,14,4,3),(22,2,18,8,4,4),(23,2,18,8,4,5),(24,2,2,9,4,6),(25,2,18,8,5,1),(26,2,18,8,5,2),(27,2,6,12,5,3),(28,2,6,12,5,4),(29,2,15,11,5,5),(30,2,15,11,5,6);
+/*!40000 ALTER TABLE `clase` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `curso`
+--
+
+DROP TABLE IF EXISTS `curso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `curso` (
+  `cursoID` int NOT NULL AUTO_INCREMENT,
+  `nombreCurso` varchar(255) NOT NULL,
+  PRIMARY KEY (`cursoID`),
+  UNIQUE KEY `nombreCurso` (`nombreCurso`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `curso`
+--
+
+LOCK TABLES `curso` WRITE;
+/*!40000 ALTER TABLE `curso` DISABLE KEYS */;
+INSERT INTO `curso` VALUES (1,'1DAM'),(2,'2DAM');
+/*!40000 ALTER TABLE `curso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `falta`
+--
+
+DROP TABLE IF EXISTS `falta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `falta` (
+  `faltaID` int NOT NULL AUTO_INCREMENT,
+  `alumnoID` int NOT NULL,
+  `claseID` int NOT NULL,
+  `fecha` datetime NOT NULL,
+  PRIMARY KEY (`alumnoID`,`claseID`,`fecha`),
+  UNIQUE KEY `faltaID` (`faltaID`),
+  KEY `falta_fk1` (`claseID`),
+  CONSTRAINT `falta_fk0` FOREIGN KEY (`alumnoID`) REFERENCES `alumno` (`alumnoID`),
+  CONSTRAINT `falta_fk1` FOREIGN KEY (`claseID`) REFERENCES `clase` (`claseID`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `falta`
+--
+
+LOCK TABLES `falta` WRITE;
+/*!40000 ALTER TABLE `falta` DISABLE KEYS */;
+INSERT INTO `falta` VALUES (15,23,1,'2020-11-13 15:23:34'),(16,23,30,'2020-11-13 15:44:22'),(17,6,30,'2020-11-13 15:45:07'),(18,23,30,'2020-11-13 15:45:07'),(19,5,30,'2020-11-13 15:45:07'),(20,4,1,'2020-11-13 17:41:35'),(21,23,1,'2020-11-13 17:41:35'),(22,23,2,'2020-11-19 17:18:49'),(23,23,2,'2020-11-19 17:19:13'),(24,23,13,'2020-11-19 17:20:22'),(25,23,19,'2020-11-19 18:04:06'),(26,23,15,'2020-11-19 18:36:31'),(27,23,15,'2020-11-19 18:37:00'),(28,23,19,'2020-11-20 12:55:23'),(29,23,1,'2020-12-01 13:50:33'),(30,35,1,'2020-12-02 12:59:10'),(31,23,22,'2020-12-02 13:07:18'),(32,23,22,'2020-12-10 23:08:52'),(33,23,22,'2020-12-10 23:09:34');
+/*!40000 ALTER TABLE `falta` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `profesor`
+--
+
+DROP TABLE IF EXISTS `profesor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `profesor` (
+  `profesorID` int NOT NULL AUTO_INCREMENT,
+  `nombreProfesor` varchar(255) NOT NULL,
+  `apellidosProfesor` varchar(255) NOT NULL,
+  `correoProfesor` varchar(255) NOT NULL,
+  `passwordHashedProfesor` varchar(255) NOT NULL,
+  `dniProfesor` varchar(255) NOT NULL,
+  `telefonoProfesor` varchar(255) NOT NULL,
+  `isAdmin` tinyint DEFAULT '0',
+  PRIMARY KEY (`profesorID`),
+  UNIQUE KEY `correoProfesor` (`correoProfesor`),
+  UNIQUE KEY `dniProfesor` (`dniProfesor`),
+  UNIQUE KEY `telefonoProfesor` (`telefonoProfesor`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `profesor`
+--
+
+LOCK TABLES `profesor` WRITE;
+/*!40000 ALTER TABLE `profesor` DISABLE KEYS */;
+INSERT INTO `profesor` VALUES (1,'Hector','Estrela','hector2@gmail.com','password','P1','61',0),(2,'Jose Maria','Martinez','josemaria@gmail.com','password','P2','62',0),(3,'Carlos','Gonzalez','carlos@gmail.com','password','P3','63',0),(4,'Ana','Diaz','ana@gmail.com','password','P4','64',0),(5,'Luis','Izquierdo','luis1@gmail.com','password','P5','65',0),(6,'Laura','Garcia','laura@gmail.com','password','P6','66',0),(7,'Administrador','Admin','migueladmin@gmail.com','admin_password','P7','67',1),(15,'Hector','Estrela','hector@gmail.com','$2b$10$VEiJ1qJfZAwSM5hdbgFDA.l/EwzosUv1YMEIMkWAeKehfPVm91hvu','P8','68',0),(18,'Luis','Izquierdo','luis@gmail.com','$2b$10$ksQC9kyJAtMRAiWpV44TneUAsMav4oC8cRcAWmq1rK.fbeutGWECa','69','69',0);
+/*!40000 ALTER TABLE `profesor` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-12-10 23:29:41

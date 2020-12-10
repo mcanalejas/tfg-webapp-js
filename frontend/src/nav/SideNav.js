@@ -82,7 +82,7 @@ export default function SideNav(props) {
                         <MenuIcon />
                     </IconButton>
                     <Divider orientation="vertical" flexItem />
-                    PASAR LISTA WEB APP
+                    F en lista - WebApp
                 </Toolbar>
             </AppBar>
             <Drawer
