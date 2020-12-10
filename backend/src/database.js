@@ -2,9 +2,9 @@ const mysql = require('mysql')
 
 const mysqlConnection = mysql.createConnection({
     host: 'localhost',
-    user: 'user_db_react',
+    user: 'root',
     password: 'tiger',
-    database: 'db_react'
+    database: 'db_fenlalista'
 })
 
 // Comprobar database
